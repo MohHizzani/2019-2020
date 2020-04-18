@@ -1,0 +1,16 @@
+\documentclass[onecolumn,draftcls,12pt]{IEEEtran}
+
+\usepackage[hidelinks]{hyperref}
+
+\title{NumNN.jl Deeplearning Package for Fast Testing and Simulating Number Systems on Neural Networks}
+
+\author{\IEEEauthorblockN{Mohammad~Hizzani} \\ \IEEEauthorblockA{University of Lisbon}\\
+\href{mailto:moh.hizzani@gmail.com}{moh.hizzani@gmail.com}}
+
+\begin{document}
+	\maketitle
+
+	\begin{abstract}
+		The development of Deeplearning models and techneques approches an extensive need for hardware support, where many of the new models are deep (in terms of number of layers and number of computation per layer whether they are nodes or channels) and are using big data for training, not to mention need to tune the hyper parameters which may need to re-do the training or part of it many times. Thus, many number systems were introduced as an alternative to the IEEE floating-point formats as hardware friendly systems faster and/or more accurate in computation. However, the hardware design and verify process is complex and expensive, hence, these number systems should be tested before moving on with designing. Because most deeplearning frameworks and libraries target AI production, they only support the IEEE formats. Therefore, this package was design with rapid prototyping and number systems test in mind. It provides a fast way of design, train and evaluate a deeplearning model with new number system(s).
+	\end{abstract}
+\end{document}
