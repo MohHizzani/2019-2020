@@ -7,3 +7,25 @@
 An example of novel number systems is the Posit number system\cite{Gustafson2017}, which is known also as UNUM III. Posit was introduced as an advanced number system that overpass IEEE standards as a hardware-friendly system for general-purpose computation arithmetic operations that provides some faster versions of functions used in neural networks such as the Sigmoid function\footnote{Sigmoid function $\left(\sigma(x) = \frac{1}{1 + e^{-1}}\right)$ is rarely used as an activation function. However, $\tanh$ function is widely used and it is a scaled and shifted version of the Sigmoid function $\left(\tanh(x) = 2 \sigma(2x) -1\right)$.}. Some suggests to use previously known number systems that can be modified to perform much faster computation than the conventional IEEE-754. Residual Number System (RNS) \cite{Garner1959} were used in many DSP applications. RNS was used as a potential number system to provide energy saver units in Convolution Neural Networks (CNN) \cite{Miyashita2016}. Another number system is the Logarithmic Number System (LNS) \cite{Kingsbury1971,Alexopoulos1975,Lee1977} which is being developed to be used in CNN to provide higher accuracy in training using much smaller bit length \cite{Miyashita2016}.
 
 \subsection{Whe Julia?}
+
+Julia \cite{Julia,Bezanson2017} is a high-level programming language that was designed with scientific research and data science in mind. It provides an unconventional way of defining primitive types in hardware level (with number of bits predefined) where all number types of Julia were defined, designed and implemented using only native Julia\footnote{\mintinline{julia}{Float16, Float32, Float64} represent the IEEE Floating types in Julia. \mintinline{julia}{Int128, Int16, Int32, Int64, Int8} are the conventional Signed-Integers similarly \mintinline{julia}{UInt128, UInt16, UInt32, UInt64, UInt8} are the conventional Unsigned integers.}.
+
+Moreover, Julia provides a novel way of multiple dispatch\cite{WikiMultipleDispatch} concept in programming languages\cite{JuliaMehtods}. Multiple Dispatch in a nutshell is that a function with a single name has different process (methods) base on its argument(s). Examples of multiple dispatch are the primitive operations (addition, subtraction, multiplication and division) as follows:
+
+\begin{listing}[H]
+\begin{minted}[frame=single,fontsize=\footnotesize ,breaklines]{julia}
+julia> aInt, bInt = 1, 2; #these are Integers
+
+julia> aF, bF = 1.0, 2.0; #there are Floats
+
+julia> aInt + bF #this will call the method +(::Integer, ::Float64) note the result is in Float64
+3.0
+\end{minted}
+\caption{Multiple Dispatch First Example}
+\end{listing}
+
+Note how the result was promoted to be in \mintinline{julia}{Float64} because of Julia special promotion functions (\mintinline[fontsize=\footnotesize ]{julia}{promote_type(::Type{Integer},::Type{Float64}) = Float64}). This means that function used in any packages can be used without making any modification to the package, the only thing needed to be done is to define a methods of those functions for the new type. For instance, functions such as Trigonometric functions or Hyperbolic functions as by default provided by Julia for its primitive types including the IEEE-754 types. If any of these are used in a package only needed is to define any of them for the new number system that to be used in this package.
+
+Divide and conquer is an essential way of development, which facilitates the focus on smaller pieces in a process. Hence, this property of Julia (Multiple Dispatch) makes it much easier to separate different steps of development which means less time is used on editing and modification, and more time used for designing, testing and development. In the upcoming sections it will be presented what methods of functions of NumNN any new number system should defined beforehand.
+
+Furthermore, Julia provides a native support for parallel operations namely co-routines, multi-threads and multi-core. Mostly no new code is needed for parallel operations, and when needed, the same code with some macros do the job. In the same way, for-loops in Julia are extremely fast as C-like fast of for-loops. 
