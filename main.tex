@@ -1,5 +1,12 @@
 \documentclass[onecolumn,draftcls,12pt,conference]{IEEEtran}
 
+%\usepackage{standalone}
+%\include{examplepreamble}
+%\standaloneconfig{}
+%\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{framed}
+
 \usepackage[hidelinks]{hyperref}
 \usepackage{cite}
 
@@ -11,9 +18,14 @@
 \usepackage{minted}
 \usemintedstyle{colorful}
 
-%\renewcommand{\fontnotesize}{9pt}
-%\setlength{\fontnotesize}{9}
-%\fontnotesize
+\usepackage{tikz}
+\usetikzlibrary{mindmap}
+
+%\usepackage{qtree}
+%\usepackage{subcaption}
+
+
+
 \title{NumNN.jl Deeplearning Package for Fast Testing and Simulating Number Systems on Neural Networks}
 
 \author{\IEEEauthorblockN{Mohammad~Hizzani} \IEEEauthorblockA{University of Lisbon\\
@@ -23,6 +35,7 @@
 	%\IEEEauthorblockA{University of Lisbon\\
 	%Email: some@sdf.com}
 }
+
 
 
 \begin{document}
@@ -35,6 +48,8 @@
 	\input{introduction}
 	
 	\input{body}
+%	\includestandalone[subpreambles=true]{00-FCLayer-FashionMNIST/00-FCLayer-FashionMNIST}
+	\input{appendices}
 	
 	\bibliographystyle{IEEEtran}
 	\bibliography{IEEEabrv,main}

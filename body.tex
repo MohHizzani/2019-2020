@@ -1,1 +1,73 @@
 \section{NumNN.jl}
+
+This package (library) was build on the concept of rapid prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research}\cite{Keras}.
+
+\subsection{Fast Implementation and Deployment}
+
+NumNN.jl provides the fastest possible way of implement a neural network model, train and use it for prediction and testing. Installing the package and using it can be done from a Julia REPL as follows:
+
+\begin{listing}[H]
+	\begin{minted}[frame=single,fontsize=\footnotesize ,breaklines]{julia}
+	julia> ] add NumNN
+	julia> using NumNN
+	\end{minted}
+	\caption{Adding NumNN.jl and import it}\label{addimport}
+\end{listing}
+
+Defining layers sequence can be easily done either like this:
+
+\begin{listing}[H]
+	\begin{minted}[frame=single,fontsize=\footnotesize ,breaklines]{julia}
+	X_Input, X_Ouput = chain(X_train,[Flatten(),FCLayer(120,:relu),FCLayer(10,:softmax)])
+	\end{minted}
+	\caption{Chained Layers with no side branch(es)}\label{chain}
+\end{listing}
+
+
+where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. Or in case there is some side branches it can be easily done as follow:
+
+\begin{listing}[H]
+	\begin{minted}[frame=single,fontsize=\footnotesize ,breaklines]{julia}
+	X_Input = Input(X_train)
+	Xc = [
+	Conv2D(3, (3,3), padding=:same)(X_Input),
+	Conv2D(4, (5,5), padding=:same)(X_Input),
+	Conv2D(10, (1,1), padding=:same)(X_Input),
+	MaxPool2D((2,2); padding=:same)(X_Input),
+	AveragePool2D((3,3); padding=:same)(X_Input),
+	]
+	X = ConcatLayer()(Xc)
+	X = BatchNorm(dim=3)(X) #to normalize across the channels
+	X = Activation(:relu)(X)
+	X = MaxPool2D((2,2))(X);
+	Xc = [
+	Conv2D(6, (3,3), padding=:same)(X),
+	Conv2D(8, (5,5), padding=:same)(X),
+	Conv2D(10, (1,1), padding=:same)(X),
+	MaxPool2D((2,2); padding=:same)(X),
+	AveragePool2D((3,3); padding=:same)(X),
+	]
+	X = ConcatLayer()(Xc)
+	X = BatchNorm(dim=3)(X) #to normalize across the channels
+	X = Activation(:relu)(X)
+	X = AveragePool2D((3,3))(X);
+	X = Flatten()(X)
+	X_Output = FCLayer(10, :softmax)(X);
+	\end{minted}
+	\caption{InceptionNet Example}\label{chain}
+\end{listing}
+
+A group of examples can be found in Appendices.
+
+\subsection{Structure and Architecture}
+
+The structure of NumNN.jl is simple enough to comprehend in few minutes and to start amend in case any new elements is needed to be added. Figure \ref{fig:layerstruct} shows the Layers hierarchy in NumNN.jl, this structure was built to facilitate the use and the future development of NumNN.jl.
+
+\begin{figure}[H]
+	\centering
+	%\begin{subfigure}{0.95\textwidth}
+		\input{typetree}
+	%\end{subfigure}
+	\caption{Layer Architecture in NumNN.jl}\label{fig:layerstruct}
+\end{figure}
+
