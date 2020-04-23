@@ -1,13 +1,13 @@
 \section{NumNN.jl}
 
-This package (library) was build on the concept of rapid prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research}\cite{Keras}.
+This package\footnote{\href{https://github.com/MohHizzani/NumNN.jl}{https://github.com/MohHizzani/NumNN.jl}} (library) was build on the concept of rapid prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research}\cite{Keras}.
 
 \subsection{Fast Implementation and Deployment}
 
 NumNN.jl provides the fastest possible way of implement a neural network model, train and use it for prediction and testing. Installing the package and using it can be done from a Julia REPL as follows:
 
 \begin{listing}[H]
-	\begin{minted}[frame=lines,rulecolor=MidnightBlue,bgcolor=LGray,fontsize=\footnotesize ,breaklines]{julia}
+	\begin{minted}{julia}
 	julia> ] add NumNN
 	julia> using NumNN
 	\end{minted}
@@ -17,17 +17,17 @@ NumNN.jl provides the fastest possible way of implement a neural network model, 
 Defining layers sequence can be easily done either like this:
 
 \begin{listing}[H]
-	\begin{minted}[frame=lines,rulecolor=MidnightBlue,bgcolor=LGray,fontsize=\footnotesize ,breaklines]{julia}
+	\begin{minted}{julia}
 	X_Input, X_Ouput = chain(X_train,[Flatten(),FCLayer(120,:relu),FCLayer(10,:softmax)])
 	\end{minted}
 	\caption{Chained Layers with no side branch(es)}\label{chain}
 \end{listing}
 
 
-where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. Or in case there is some side branches it can be easily done as follow:
+where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. Or in case there is some side branches it can be easily done as the following example of Inception Net \cite{Szegedy2016}:
 
 \begin{listing}[H]
-	\begin{minted}[frame=lines,rulecolor=MidnightBlue,bgcolor=LGray,fontsize=\footnotesize ,breaklines]{julia}
+	\begin{minted}{julia}
 	X_Input = Input(X_train)
 	Xc = [
 	Conv2D(3, (3,3), padding=:same)(X_Input),
@@ -74,21 +74,25 @@ The structure of NumNN.jl is simple enough to comprehend in few minutes and to s
 An essential data type (\mintinline[fontsize=\footnotesize]{julia}{Model}) holds the main pointers to layers structure and parameters to use. Instantiating a (\mintinline[fontsize=\footnotesize]{julia}{Model}) will also invoke the initialization of the layers scaling and bias parameters and can be done as follows:
 
 \begin{listing}[H]
-	\begin{minted}[frame=lines,rulecolor=MidnightBlue,bgcolor=LGray,fontsize=\footnotesize ,breaklines]{julia}
-	julia> model = Model(X_train, Y_train, X_Input, X_Output, 0.001; optimizer=:adam)
+	\begin{minted}{julia}
+	model = Model(X_train, Y_train, X_Input, X_Output, 0.001; optimizer=:adam, loss=:categoricalCrossentropy)
 	\end{minted}
-	\caption{Model initialization, \mintinline{julia}{X_train, Y_train} are training data and labels, while \mintinline{Julia}{X_Input, X_Ouput} are the input and output layers. The value of \mintinline{julia}{0.001} represent the learning rate of this model, where the key-word \mintinline{julia}{optimizer} define the optimizer to use during training.}\label{modelinit}
+	\caption{Model initialization, \mintinline{julia}{X_train, Y_train} are training data and labels, while \mintinline{Julia}{X_Input, X_Ouput} are the input and output layers. The value of \mintinline{julia}{0.001} represent the learning rate of this model, where the key-word \mintinline{julia}{optimizer} define the optimizer to use during training, and \mintinline{julia}{loss} defines the loss function.}\label{modelinit}
 \end{listing}
 
-Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl only provided few activation functions (sigmoid ($\sigma$), $\tanh$, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). This because using any other activation function can be defined as a subtype to \mintinline[fontsize=\footnotesize]{julia}{actFun} and then as a normal function with another function for its derivative. For instance, if you want to add $\sin$ as an activation function all what you need to do is:
+Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl only provided few activation functions (sigmoid ($\sigma$), \mintinline{julia}{tanh}, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). This because using any other activation function can be defined as a subtype to \mintinline[fontsize=\footnotesize]{julia}{actFun} and then as a normal function with another function for its derivative. For instance, if you want to add $\sin$ as an activation function all what you need to do is:
 
 \begin{listing}[H]
-	\begin{minted}[frame=lines,rulecolor=MidnightBlue,bgcolor=LGray,fontsize=\footnotesize ,breaklines]{julia}
+	\begin{minted}{julia}
 	abstract type sin <: actFun end
 	
-	sin(x) = base.sin(x) #note the use of base. to tell julia that we need the default sin at this step not the type defined because it was overwritten
-	dsin(x) = base.cos(x)
+	sin(x) = base.sin.(x) #note the use of base. to tell julia that we need the default sin at this step not the type defined because it was overwritten
+	dsin(x) = base.cos.(x)
 	\end{minted}
 	\caption{Example of defining a new activation function to NumNN.jl}
 \end{listing}
+
+NumNN.jl has loss functions under the \mintinline{julia}{abstract type lossFun}. The two main loss functions defined are the \mintinline{julia}{binaryCrossentropy} and \mintinline{julia}{categoricalCrossentropy}. Also we believe other loss functions can be easily defined, and more functions are coming in the upcoming versions of NumNN.jl.
+
+%\subsection{Sequence of Processes}
 

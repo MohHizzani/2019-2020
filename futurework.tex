@@ -1,0 +1,5 @@
+\section{Future Work}
+
+The goal of NumNN.jl is the simplicity, generality of implementing neural networks models with the ability of adoption of various number systems to be tested before the hardware design process. Moreover, NumNN.jl in the future will be able to use different back-end devices and process units to speed up the training and inference of the neural networks. So far the package depends on predefined derivative and gradients of the activation functions (each activation function has a derivative provided under the same name with letter \mintinline{julia}{"d"} added to the front of its name like \mintinline{julia}{relu} and \mintinline{julia}{drelu}), in the upcoming versions will be able to do automated derivation and gradient techniques.
+
+More activation functions will be added and many new loss functions to serve the easiness and generality of this package. For  the status quo NumNN.jl only accepts one input layer and one output layer, and multiple input and output layers will be of highest priority to support in the upcoming versions.

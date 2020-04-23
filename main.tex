@@ -1,4 +1,5 @@
 \documentclass[onecolumn,draftcls,12pt,conference]{IEEEtran}
+\usepackage[utf8]{inputenc}
 
 %\usepackage{standalone}
 %\include{examplepreamble}
@@ -19,10 +20,11 @@
 %%% for code wraping
 \usepackage{minted}
 \usemintedstyle{colorful}
-
+\setminted[julia]{frame=lines,rulecolor=MidnightBlue,bgcolor=LGray,fontsize=\footnotesize ,breaklines}
 \usepackage{tikz}
 \usetikzlibrary{mindmap}
 
+\usepackage{pmboxdraw}
 %\usepackage{qtree}
 %\usepackage{subcaption}
 
@@ -50,6 +52,8 @@
 	\input{introduction}
 	
 	\input{body}
+	
+	\input{futurework}
 %	\includestandalone[subpreambles=true]{00-FCLayer-FashionMNIST/00-FCLayer-FashionMNIST}
 	\input{appendices}
 	
