@@ -1,10 +1,10 @@
 \section{NumNN.jl}
 
-This package\footnote{\href{https://github.com/MohHizzani/NumNN.jl}{https://github.com/MohHizzani/NumNN.jl}} (library) was build on the concept of rapid prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research}\cite{Keras}.
+This package\footnote{\href{https://github.com/MohHizzani/NumNN.jl}{https://github.com/MohHizzani/NumNN.jl}} (library) was built on the concept of Rapid Prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research}\cite{Keras}.
 
 \subsection{Fast Implementation and Deployment}
 
-NumNN.jl provides the fastest possible way of implement a neural network model, train and use it for prediction and testing. Installing the package and using it can be done from a Julia REPL as follows:
+NumNN.jl provides the fastest possible way to implement a neural network model, train and use it for prediction and testing. Installing the package and using it can be done from a Julia REPL as follows:
 
 \begin{listing}[H]
 	\begin{minted}{julia}
@@ -24,7 +24,7 @@ Defining layers sequence can be easily done either like this:
 \end{listing}
 
 
-where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. Or in case there is some side branches it can be easily done as the following example of Inception Net \cite{Szegedy2016}:
+where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. Or in case there are some side branches it can be easily done as the following example of Inception Net \cite{Szegedy2016}:
 
 \begin{listing}[H]
 	\begin{minted}{julia}
@@ -57,11 +57,11 @@ where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or 
 	\caption{InceptionNet Example}\label{chain}
 \end{listing}
 
-A group of examples can be found in Appendices.
+%A group of examples can be found in Appendices.
 
 \subsection{Structure and Architecture}
 
-The structure of NumNN.jl is simple enough to comprehend in few minutes and to start amend in case any new elements is needed to be added. \figurename\ref{fig:layerstruct} shows the Layers hierarchy in NumNN.jl, this structure was built to facilitate the use and the future development of NumNN.jl.
+The structure of NumNN.jl is simple enough to comprehend in few minutes and to start amend in case any new element is needed to be added. \figurename\ref{fig:layerstruct} shows the Layers hierarchy in NumNN.jl, this structure was built to facilitate the use and the future development of NumNN.jl.
 
 \begin{figure}[!ht]
 	\centering
@@ -80,7 +80,7 @@ An essential data type (\mintinline[fontsize=\footnotesize]{julia}{Model}) holds
 	\caption{Model initialization, \mintinline{julia}{X_train, Y_train} are training data and labels, while \mintinline{Julia}{X_Input, X_Ouput} are the input and output layers. The value of \mintinline{julia}{0.001} represent the learning rate of this model, where the key-word \mintinline{julia}{optimizer} define the optimizer to use during training, and \mintinline{julia}{loss} defines the loss function.}\label{modelinit}
 \end{listing}
 
-Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl only provided few activation functions (sigmoid ($\sigma$), \mintinline{julia}{tanh}, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). This because using any other activation function can be defined as a subtype to \mintinline[fontsize=\footnotesize]{julia}{actFun} and then as a normal function with another function for its derivative. For instance, if you want to add $\sin$ as an activation function all what you need to do is:
+Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl only provided few activation functions (sigmoid ($\sigma$), \mintinline{julia}{tanh}, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). This is because using any other activation function can be defined as a subtype to \mintinline[fontsize=\footnotesize]{julia}{actFun} and then as a normal function with another function for its derivative. For instance, if you want to add $\sin$ as an activation function all what you need to do is:
 
 \begin{listing}[H]
 	\begin{minted}{julia}
@@ -92,7 +92,7 @@ Activation functions are defined under the \mintinline[fontsize=\footnotesize]{j
 	\caption{Example of defining a new activation function to NumNN.jl}
 \end{listing}
 
-NumNN.jl has loss functions under the \mintinline{julia}{abstract type lossFun}. The two main loss functions defined are the \mintinline{julia}{binaryCrossentropy} and \mintinline{julia}{categoricalCrossentropy}. Also we believe other loss functions can be easily defined, and more functions are coming in the upcoming versions of NumNN.jl.
+NumNN.jl has loss functions under the \mintinline{julia}{abstract type lossFun}. The two main loss functions defined are the \mintinline{julia}{binaryCrossentropy} and \mintinline{julia}{categoricalCrossentropy}. Also, we believe other loss functions can be easily defined, and more functions are coming in the upcoming versions of NumNN.jl.
 
 %\subsection{Sequence of Processes}
 
