@@ -1,4 +1,4 @@
-%\documentclass[onecolumn,draftcls,12pt,conference]{IEEEtran}
+%\documentclass[onecolumn]{IEEEtran}
 \documentclass{article}
 \usepackage[nonatbib]{neurips_2020}
 %\usepackage{natbib}
@@ -34,6 +34,7 @@
 
 
 
+
 \title{NumNN.jl Deeplearning Package for Rapid Testing and Simulating Number Systems on Neural Networks}
 
 \author{%\IEEEauthorblockN
@@ -51,12 +52,11 @@
 }
 
 
-
 \begin{document}
 	\maketitle
 
 	\begin{abstract}
-		The development of Deeplearning models and techniques approach an extensive need for hardware support, where many new models have deep architectures (in terms of number of layers and number of computation per layer whether they are nodes or channels). As well as, they are using big data for training, in addition to need to tune the hyper parameters which may require the repetition of the whole training process or part of it again and again. Thus, many number systems were introduced as an alternative to the IEEE floating-point formats as hardware-friendly systems which are faster and/or more accurate in computation. However, the hardware design and verification process is complex and expensive. Hence, these number systems should be tested in simulation environments before moving forward. And because most deeplearning frameworks and libraries target AI production, they only support the IEEE formats. This paper represents a package was designed with rapid prototyping and experimenting number systems in mind. It provides a agile way of designing, training and evaluating a deeplearning (neural network) model with any number system(s).
+		The development of Deeplearning models and techniques approach an extensive need for hardware support, where many new models have deep architectures (in terms of number of layers and number of computation per layer whether they are nodes or channels). As well as, deeplearning models use big data for training, also needing to tune the hyper parameters which may require the repetition of the whole training process or part of it multiple times. Thus, many number systems were introduced as an alternative to the IEEE floating-point formats as hardware-friendly systems which are faster and/or more accurate in computation. However, the hardware design and verification process are complex and expensive. Hence, these number systems should be tested in simulation environments before moving forward. Because most deeplearning frameworks and libraries target AI production, they only support the IEEE formats. This paper represents a package designed with rapid prototyping and experimenting number systems in mind. It provides an agile way of designing, training and evaluating a deeplearning (neural network) model with any number system(s).
 	\end{abstract}
 
 	\input{introduction}
@@ -68,6 +68,7 @@
 	%\input{appendices}
 	
 	\bibliographystyle{IEEEtran}
-	%\bibliographystyle{plainnat}
+	%\bibliographystyle{plain}
 	\bibliography{main}
+	%\printbibliography
 \end{document}

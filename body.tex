@@ -1,6 +1,6 @@
 \section{NumNN.jl}
 
-This package\footnote{\href{https://github.com/MohHizzani/NumNN.jl}{https://github.com/MohHizzani/NumNN.jl}} (library) was built on the concept of Rapid Prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research}\cite{Keras}.
+This package\footnote{\href{https://github.com/MohHizzani/NumNN.jl}{https://github.com/MohHizzani/NumNN.jl}} (library) was built on the concept of Rapid Prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research} \cite{Keras}. There are so many deeplearning frameworks out in the internet \cite{Abadi2016,Collet2015,Jia2014,Paszke2017,PyTorch2019}, some are widely spread and efficient in production and research as long as you are using the IEEE-754 standards. However, most of these libraries run on Python which has not the native support of newly added primitive types nor the efficiency of Julia in multiple dispatch (any new defined number systems needs an internal modification to the library itself to be capable of handling it). Even packages of Julia like Flux.jl \cite{Flux.jl-2018,Innes2018} or Knet \cite{Knet} both do not fully support newly added types, in addition, to not support the flexibility of different types for different parameters or to deliver output with certain desired types. Thus, NumNN.jl provides a fully support for a total in one type computation, the ability to choose the type of each group of parameters and the capabilities of delivering output of a chosen type.
 
 \subsection{Fast Implementation and Deployment}
 
@@ -24,9 +24,9 @@ Defining layers sequence can be easily done either like this:
 \end{listing}
 
 
-where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. Or in case there are some side branches it can be easily done as the following example of Inception Net \cite{Szegedy2016}:
+where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. Or in case there are some side branches it can be easily done as the example of Inception Net \cite{Szegedy2016} (Listing~\ref{chain}). 
 
-\begin{listing}[H]
+\begin{listing}[!h]
 	\begin{minted}{julia}
 	X_Input = Input(X_train)
 	Xc = [
@@ -61,7 +61,7 @@ where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or 
 
 \subsection{Structure and Architecture}\label{subsec:saa}
 
-The structure of NumNN.jl is simple enough to comprehend in few minutes and to start amend in case any new element is needed to be added. \figurename\ref{fig:layerstruct} shows the Layers hierarchy in NumNN.jl, this structure was built to facilitate the use and the future development of NumNN.jl.
+The structure of NumNN.jl is simple enough to comprehend in few minutes and to start to amend in case any new element is needed to be added. \figurename\ref{fig:layerstruct} shows the Layers hierarchy in NumNN.jl, this structure was built to facilitate the use and the future development of NumNN.jl.
 
 \begin{figure}[!ht]
 	\centering
