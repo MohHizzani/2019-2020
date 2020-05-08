@@ -1,6 +1,6 @@
-\section{NumNN.jl}
+\section{Structure and Organization}
 
-This package\footnote{\href{https://github.com/MohHizzani/NumNN.jl}{https://github.com/MohHizzani/NumNN.jl}} (library) was built on the concept of Rapid Prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research} \cite{Keras}. There are so many deeplearning frameworks out in the internet \cite{Abadi2016,Collet2015,Jia2014,Paszke2017,PyTorch2019}, some are widely spread and efficient in production and research as long as you are using the IEEE-754 standards. However, most of these libraries run on Python which has not the native support of newly added primitive types nor the efficiency of Julia in multiple dispatch (any new defined number systems needs an internal modification to the library itself to be capable of handling it). Even packages of Julia like Flux.jl \cite{Flux.jl-2018,Innes2018} or Knet \cite{Yuret2016k} both do not fully support newly added types, in addition, to not support the flexibility of different types for different parameters or to deliver output with certain desired types. Thus, NumNN.jl provides a fully support for a total in one type computation, the ability to choose the type of each group of parameters and the capabilities of delivering output of a chosen type.
+The NumNN.jl  package\footnote{\href{https://github.com/MohHizzani/NumNN.jl}{https://github.com/MohHizzani/NumNN.jl}} (library) was built on the concept of Rapid Prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research} \cite{Keras}. There are so many deeplearning frameworks out on the internet \cite{Abadi2016,Collet2015,Jia2014,Paszke2017,PyTorch2019}, some are widely spread and efficient in production and research as long as you are using the IEEE-754 standards. However, most of these libraries run on Python which has not the native support of newly added primitive types nor the efficiency of Julia in multiple dispatch (any new defined number systems needs an internal modification to the library itself to be capable of handling it). Even packages of Julia like Flux.jl \cite{Flux.jl-2018,Innes2018} or Knet \cite{Yuret2016k} neither of them fully support newly added types, and do not provide the flexibility of different types for different parameters or to deliver output with certain desired data types. Thus, NumNN.jl provides a fully support for a total in one type computation, the ability to choose the type of each group of parameters and the capabilities of delivering output of a chosen type.
 
 \subsection{Fast Implementation and Deployment}
 
@@ -40,7 +40,7 @@ The structure of NumNN.jl is simple enough to comprehend in few minutes and to s
 	\caption{Layer Architecture in NumNN.jl, the useable layers are the leaves the other nodes are \mintinline[fontsize=\footnotesize]{julia}{abstract type}s.}\label{fig:layerstruct}
 \end{figure}
 
-An essential data type (\mintinline[fontsize=\footnotesize]{julia}{Model}) holds the main pointers to layers structure and parameters to use. Instantiating a (\mintinline[fontsize=\footnotesize]{julia}{Model}) will also invoke the initialization of the layers scaling and bias parameters and can be done as follows:
+An essential data type (\mintinline[fontsize=\footnotesize]{julia}{Model}) holds the main pointers to layers structure and parameters to use. Instantiating a (\mintinline[fontsize=\footnotesize]{julia}{Model}) will also invoke the initialization of the layers scaling and bias parameters and can be done as presented in Listing~\ref{modelinit}.
 
 \begin{listing}[H]
 	\begin{minted}{julia}
@@ -77,10 +77,10 @@ An essential data type (\mintinline[fontsize=\footnotesize]{julia}{Model}) holds
 	X = Flatten()(X)
 	X_Output = FCLayer(10, :softmax)(X);
 	\end{minted}
-	\caption{InceptionNet Example}\label{chain}
+	\caption{InceptionNet Example where this layer architecture has many side branches.}\label{chain}
 \end{listing}
 
-Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl only provided few activation functions (sigmoid ($\sigma$), \mintinline{julia}{tanh}, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). This is because using any other activation function can be defined as a subtype to \mintinline[fontsize=\footnotesize]{julia}{actFun} and then as a normal function with another function for its derivative. For instance, if you want to add $\sin$ as an activation function all what you need to do is:
+Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl only provided few activation functions (sigmoid ($\sigma$), \mintinline{julia}{tanh}, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). Using any other activation function can be defined as a subtype of \mintinline[fontsize=\footnotesize]{julia}{actFun} and then as a normal function with another function for its derivative. For instance, if you want to add $\sin$ as an activation function all what you need is expressed in Listing~\ref{newact}
 
 \begin{listing}[H]
 	\begin{minted}{julia}
@@ -89,10 +89,10 @@ Activation functions are defined under the \mintinline[fontsize=\footnotesize]{j
 	sin(x) = base.sin.(x) #note the use of base. to tell julia that we need the default sin at this step not the type defined because it was overwritten
 	dsin(x) = base.cos.(x)
 	\end{minted}
-	\caption{Example of defining a new activation function to NumNN.jl}
+	\caption{Example of defining a new activation function to NumNN.jl}\label{newact}
 \end{listing}
 
-NumNN.jl has loss functions under the \mintinline{julia}{abstract type lossFun}. The two main loss functions defined are the \mintinline{julia}{binaryCrossentropy} and \mintinline{julia}{categoricalCrossentropy}. Also, we believe other loss functions can be easily defined, and more functions are coming in the upcoming versions of NumNN.jl.
+NumNN.jl has loss functions under the \mintinline{julia}{abstract type lossFun}. The two main loss functions defined are the \mintinline{julia}{binaryCrossentropy} and \mintinline{julia}{categoricalCrossentropy}. Also, other loss functions can be easily defined, more functions will be available in the upcoming versions of NumNN.jl.
 
 %\subsection{Sequence of Processes}
 
