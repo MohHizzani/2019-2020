@@ -12,7 +12,8 @@
 \usepackage{import}
 \usepackage{framed}
 
-\usepackage[hidelinks]{hyperref}
+%\usepackage[hidelinks]{hyperref}
+
 %\usepackage{cite}
 
 \usepackage{caption}
@@ -20,7 +21,20 @@
 %\usepackage{float}
 %\usepackage{listing}
 \usepackage[dvipsnames]{xcolor}
-\colorlet{LGray}{Gray!10!}
+\definecolor{LGray}{gray}{0.98}
+\definecolor{dgray}{gray}{0.3}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=cyan,
+	citecolor=dgray,
+}
+
+
+
 %%% for code wraping
 \usepackage{minted}
 \usemintedstyle{colorful}
@@ -33,7 +47,8 @@
 %\usepackage{subcaption}
 
 
-
+\usepackage{array}
+\usepackage{multirow}
 
 \title{NumNN.jl Deeplearning Package for Rapid Testing and Simulating Neural Networks with Different Number Systems}
 
@@ -44,7 +59,7 @@
 	INESC-ID\\ 
 	Instituto Superior Técnico\\ 
 		Universidade de Lisboa\\
-		Email: \href{mailto:moh.hizzani@gmail.com}{moh.hizzani@gmail.com}%}
+		Email: \href{mailto:moh.hizzani@gmail.com}{\tt moh.hizzani@gmail.com}%}
 	\And
 	%\IEEEauthorblockN
 	{Leonel Sousa}\\
@@ -53,7 +68,7 @@
 	INESC-ID\\ 
 		Instituto Superior Técnico\\ 
 		Universidade de Lisboa\\
-		Email: \href{mailto:las@inesc-id.pt}{las@inesc-id.pt}%}
+		Email: \href{mailto:las@inesc-id.pt}{\tt las@inesc-id.pt}%}
 	%Email: some@sdf.com}
 }
 

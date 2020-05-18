@@ -1,6 +1,6 @@
 \section{Structure and Organization}
 
-The NumNN.jl  package\footnote{\href{https://github.com/MohHizzani/NumNN.jl}{https://github.com/MohHizzani/NumNN.jl}} (library) was built on the concept of Rapid Prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research} \cite{Keras}. There are so many deeplearning frameworks out on the internet \cite{Abadi2016,Collet2015,Jia2014,Paszke2017,PyTorch2019}, some are widely spread and efficient in production and research as long as you are using the IEEE-754 standards. However, most of these libraries run on Python which has not the native support of newly added primitive types nor the efficiency of Julia in multiple dispatch (any new defined number systems needs an internal modification to the library itself to be capable of handling it). Even packages of Julia like Flux.jl \cite{Flux.jl-2018,Innes2018} or Knet \cite{Yuret2016k} neither of them fully support newly added types, and do not provide the flexibility of different types for different parameters or to deliver output with certain desired data types. Thus, NumNN.jl provides a fully support for a total in one type computation, the ability to choose the type of each group of parameters and the capabilities of delivering output of a chosen type.
+The NumNN.jl  package\footnote{\url{https://github.com/MohHizzani/NumNN.jl}} (library) was built on the concept of Rapid Prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research} \cite{Keras}. There are so many deeplearning frameworks out on the internet \cite{Abadi2016,Collet2015,Jia2014,Paszke2017,PyTorch2019}, some are widely spread and efficient in production and research as long as you are using the IEEE-754 standards. However, most of these libraries run on Python which has not the native support of newly added primitive types nor the efficiency of Julia in multiple dispatch (i.e. any new defined number systems needs an internal modification to the library itself to be capable of handling it). Even packages of Julia like Flux.jl \cite{Flux.jl-2018,Innes2018} or Knet \cite{Yuret2016k} neither of them fully support newly added types, and do not provide the flexibility of different types for different parameters or to deliver output with certain desired data types. Thus, NumNN.jl provides a fully support for a total in one type computation, the ability to choose the type of each group of parameters and the capabilities of delivering output of a chosen type.
 
 \subsection{Fast Implementation and Deployment}
 
@@ -30,7 +30,9 @@ where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or 
 
 \subsection{Structure and Architecture}\label{subsec:saa}
 
-The structure of NumNN.jl is simple enough to comprehend in few minutes and to start to amend in case any new element is needed to be added. \figurename\ref{fig:layerstruct} shows the Layers hierarchy in NumNN.jl, this structure was built to facilitate the use and the future development of NumNN.jl.
+The structure of NumNN.jl is simple enough to comprehend in few minutes and to start to amend in case any new element is needed to be added. \figurename~\ref{fig:layerstruct} shows the Layers hierarchy in NumNN.jl, this structure was built to facilitate the use and the future development of NumNN.jl.
+
+The convention of data shape to be used is (data dimension(s), channels, batch size). For instance, when using MNIST \cite{LeCun1998,LeCun1998a} data set the shape of training data will be (28,28,1,60000), where the first two dimensions are the images' dimensions the third one is number of channels and the last integer expresses the batch size.
 
 \begin{figure}[!ht]
 	\centering
@@ -80,9 +82,9 @@ An essential data type (\mintinline[fontsize=\footnotesize]{julia}{Model}) holds
 	\caption{InceptionNet Example where this layer architecture has many side branches.}\label{chain}
 \end{listing}
 
-Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl only provided few activation functions (sigmoid ($\sigma$), \mintinline{julia}{tanh}, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). Using any other activation function can be defined as a subtype of \mintinline[fontsize=\footnotesize]{julia}{actFun} and then as a normal function with another function for its derivative. For instance, if you want to add $\sin$ as an activation function all what you need is expressed in Listing~\ref{newact}
+Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl only provided few activation functions (sigmoid ($\sigma$), \mintinline{julia}{tanh}, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). Using any other activation function can be defined as a subtype of \mintinline[fontsize=\footnotesize]{julia}{actFun} and then as a normal function with another function for its derivative. For instance, if you want to add $\sin$ as an activation function all what you need is expressed in Listing~\ref{newact}.
 
-\begin{listing}[H]
+\begin{listing}[!ht]
 	\begin{minted}{julia}
 	abstract type sin <: actFun end
 	
@@ -95,4 +97,66 @@ Activation functions are defined under the \mintinline[fontsize=\footnotesize]{j
 NumNN.jl has loss functions under the \mintinline{julia}{abstract type lossFun}. The two main loss functions defined are the \mintinline{julia}{binaryCrossentropy} and \mintinline{julia}{categoricalCrossentropy}. Also, other loss functions can be easily defined, more functions will be available in the upcoming versions of NumNN.jl.
 
 %\subsection{Sequence of Processes}
+%The easiest way of explaining NumNN.jl is by showing a complete example. 
+
+\subsection{Some Benchmarks and Testing}
+The most convenient way to demonstrate the effectiveness of NumNN.jl is by getting hands dirty and showing some examples accompanied with comparison beside another library. Keras on the top of TensorFlow was one of the main influencers upon the syntax of NumNN.jl. Thus, some benchmarks were run on both NumNN and TensorFlow. Nonetheless, other benchmarks could not be run on TensorFlow due to lack support for new data types, therefore, they were run only on NumNN.jl.
+
+The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz was used for all tests, and no GPU were used (NumNN does not support GPU and other back-end so far). Table~\ref{tab:bench} shows the results of all test\footnote{All benchmarks are available at \url{https://github.com/MohHizzani/NumNN.jl/tree/master/examples}}, and where bank is present that means test was not perform under this framework because the data type is not supported.
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\caption{Various benchmarks for NumNN.jl and TensorFlow}\label{tab:bench}
+	\begin{tabular}{|c | c | c || c | c |}
+		\hline
+		Benchmark & DType & Measurements & NumNN.jl & Tensorflow\\\hline\hline
+		%%%%%%%%%% Benchmark 1
+		\multirow{14}{*}{Benchmark 1} & \multirow{5}{*}{Float32} & Train Accuracy & 0.8902 & 0.9162\\
+		& & Test Accuracy & 0.8650 & 0.8851\\
+		& & Train Cost & 0.3000 & 0.2270\\
+		& & Test Cost & 0.3728 & 0.3444\\
+		& & Training Time / Sample & $84\mu$s  & $177\mu$s\\\cline{2-5}
+		& \multirow{5}{*}{Float64} & Train Accuracy & 0.8812 & 0.9191 \\
+		& & Test Accuracy & 0.8703 & 0.8848 \\
+		& & Train Cost & 0.3314 & 0.2163 \\
+		& & Test Cost & 0.3845 & 0.3311 \\
+		& & Training Time / Sample & $93\mu$s & $100\mu$s\\\cline{2-5}
+		& \multirow{4}{*}{Posit\{16,1\}} & Train Accuracy & 0.8716 & \rule{5em}{1pt} \\
+		& & Test Accuracy & 0.8510 & \rule{5em}{1pt} \\
+		& & Train Cost & 0.3520 & \rule{5em}{1pt} \\
+		& & Test Cost & 0.4088 & \rule{5em}{1pt} \\\hline
+		%%%%%%%%%% Benchmark 2
+		\multirow{14}{*}{Benchmark 2} & \multirow{5}{*}{Float32} & Train Accuracy & 0.8731 & 0.9160\\
+		& & Test Accuracy & 0.8567 & 0.8929\\
+		& & Train Cost & 0.3444 & 0.0.2346\\
+		& & Test Cost & 0.4043 & 0.2955\\
+		& & Training Time / Sample & $1.06m$s & $8m$s \\\cline{2-5}
+		& \multirow{5}{*}{Float64} & Train Accuracy & 0.8946 & \rule{5em}{1pt} \\
+		& & Test Accuracy & 0.8770 & \rule{5em}{1pt} \\
+		& & Train Cost & 0.2876 & \rule{5em}{1pt} \\
+		& & Test Cost & 0.3374 & \rule{5em}{1pt} \\
+		& & Training Time / Sample & $1.34m$s & \rule{5em}{1pt} \\\cline{2-5}
+		& \multirow{4}{*}{Posit\{16,1\}} & Train Accuracy & 0.8946 & \rule{5em}{1pt} \\
+		& & Test Accuracy & 0.8770 & \rule{5em}{1pt} \\
+		& & Train Cost & 0.2876 & \rule{5em}{1pt} \\
+		& & Test Cost & 0.3374 & \rule{5em}{1pt} \\\hline
+		%%%%%%%%%% Benchmark 3
+		\multirow{14}{*}{Benchmark 3} & \multirow{5}{*}{Float32} & Train Accuracy & 0.8864 & 0.9072\\
+		& & Test Accuracy & 0.8730 & 0.8899\\
+		& & Train Cost & 0.3076 & 0.2527\\
+		& & Test Cost & 0.3547 & 0.3050\\
+		& & Training Time / Sample & $3.07m$s & $14m$s\\\cline{2-5}
+		& \multirow{5}{*}{Float64} & Train Accuracy & 0.9103 & \rule{5em}{1pt} \\
+		& & Test Accuracy & 0.8926 & \rule{5em}{1pt} \\
+		& & Train Cost & 0.2480 & \rule{5em}{1pt} \\
+		& & Test Cost & 0.3067 & \rule{5em}{1pt} \\
+		& & Training Time / Sample & $3.3m$s & \rule{5em}{1pt} \\\cline{2-5}
+		& \multirow{4}{*}{Posit\{16,1\}} & Train Accuracy & 0.9127 & \rule{5em}{1pt} \\
+		& & Test Accuracy & 0.8954 & \rule{5em}{1pt} \\
+		& & Train Cost & 0.2412 & \rule{5em}{1pt} \\
+		& & Test Cost & 0.2999 & \rule{5em}{1pt} \\\hline		
+	\end{tabular}
+\end{table}
+
 
