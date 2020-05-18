@@ -102,11 +102,11 @@ NumNN.jl has loss functions under the \mintinline{julia}{abstract type lossFun}.
 \subsection{Some Benchmarks and Testing}
 The most convenient way to demonstrate the effectiveness of NumNN.jl is by getting hands dirty and showing some examples accompanied with comparison beside another library. Keras on the top of TensorFlow was one of the main influencers upon the syntax of NumNN.jl. Thus, some benchmarks were run on both NumNN and TensorFlow. Nonetheless, other benchmarks could not be run on TensorFlow due to lack support for new data types, therefore, they were run only on NumNN.jl.
 
-The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz was used for all tests, and no GPU were used (NumNN does not support GPU and other back-end so far). Table~\ref{tab:bench} shows the results of all test\footnote{All benchmarks are available at \url{https://github.com/MohHizzani/NumNN.jl/tree/master/examples}}, and where bank is present that means test was not perform under this framework because the data type is not supported.
+The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz was used for all tests, and no GPU were used (NumNN does not support GPU and other back-end so far). Table~\ref{tab:bench} shows the results of all test\footnote{All benchmarks are available at \url{https://github.com/MohHizzani/NumNN.jl/tree/master/examples}}, and where bank is present that means test was not perform under this framework because the data type is not supported\footnote{\label{batchnorm}Benchmark 2 \& 3 has Batch Normalization layer where Float64 is not supported for this layer in TensorFlow}.
 
-\begin{table}[H]
+\begin{table}[!ht]
 	\centering
-	\renewcommand{\arraystretch}{1.2}
+	\renewcommand{\arraystretch}{1.1}
 	\caption{Various benchmarks for NumNN.jl and TensorFlow}\label{tab:bench}
 	\begin{tabular}{|c | c | c || c | c |}
 		\hline
@@ -127,7 +127,7 @@ The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R)
 		& & Train Cost & 0.3520 & \rule{5em}{1pt} \\
 		& & Test Cost & 0.4088 & \rule{5em}{1pt} \\\hline
 		%%%%%%%%%% Benchmark 2
-		\multirow{14}{*}{Benchmark 2} & \multirow{5}{*}{Float32} & Train Accuracy & 0.8731 & 0.9160\\
+		\multirow{14}{*}{Benchmark 2\footref{batchnorm}} & \multirow{5}{*}{Float32} & Train Accuracy & 0.8731 & 0.9160\\
 		& & Test Accuracy & 0.8567 & 0.8929\\
 		& & Train Cost & 0.3444 & 0.0.2346\\
 		& & Test Cost & 0.4043 & 0.2955\\
@@ -142,11 +142,11 @@ The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R)
 		& & Train Cost & 0.2876 & \rule{5em}{1pt} \\
 		& & Test Cost & 0.3374 & \rule{5em}{1pt} \\\hline
 		%%%%%%%%%% Benchmark 3
-		\multirow{14}{*}{Benchmark 3} & \multirow{5}{*}{Float32} & Train Accuracy & 0.8864 & 0.9072\\
-		& & Test Accuracy & 0.8730 & 0.8899\\
-		& & Train Cost & 0.3076 & 0.2527\\
-		& & Test Cost & 0.3547 & 0.3050\\
-		& & Training Time / Sample & $3.07m$s & $14m$s\\\cline{2-5}
+		\multirow{14}{*}{Benchmark 3\footref{batchnorm}} & \multirow{5}{*}{Float32} & Train Accuracy & 0.9136 & 0.9072\\
+		& & Test Accuracy & 0.8953 & 0.8899\\
+		& & Train Cost & 0.2362 & 0.2527\\
+		& & Test Cost & 0.2962 & 0.3050\\
+		& & Training Time / Sample & $3.09m$s & $14m$s\\\cline{2-5}
 		& \multirow{5}{*}{Float64} & Train Accuracy & 0.9103 & \rule{5em}{1pt} \\
 		& & Test Accuracy & 0.8926 & \rule{5em}{1pt} \\
 		& & Train Cost & 0.2480 & \rule{5em}{1pt} \\
