@@ -50,7 +50,7 @@
 \usepackage{array}
 \usepackage{multirow}
 
-\title{NumNN.jl Deeplearning Package for Rapid Testing and Simulating Neural Networks with Different Number Systems}
+\title{NumNN.jl: A Toolkit for Simulating Deeplearning Networks Supporting on Non-Conventional Arithmetic}
 
 \author{%\IEEEauthorblockN
 	{Mohammad~Hizzani}\\
@@ -77,7 +77,7 @@
 	\maketitle
 
 	\begin{abstract}
-		The development of Deeplearning models and techniques approach an extensive need for hardware support, where many new models have deep architectures (in terms of number of layers and number of computation per layer whether they are nodes or channels). As well as, deeplearning models use big data for training, also needing to tune the hyper parameters which may require the repetition of the whole training process or part of it multiple times. Thus, many number systems were introduced as an alternative to the IEEE floating-point formats as hardware-friendly systems which are faster and/or more accurate in computation. However, the hardware design and verification process are complex and expensive. Hence, these number systems should be tested in simulation environments, for the target applications, before moving forward. Because most deeplearning frameworks and libraries target AI production, they only support the IEEE formats. This paper represents a package designed with rapid prototyping and experimenting number systems in mind. It provides an agile way of designing, training and evaluating a deeplearning (neural network) model with any number system(s).
+		The development of Deeplearning models requires hardware support, with deep architectures (organized around different number of layers and computations per layer whether they are nodes of fully-connected layers or channels of convolutional neural networks). Moreover, deeplearning models use big data for training, with the need for tuning the hyper parameters, requiring the repetition of the whole training process multiple times. Thus, hardware-friendly number systems and arithmetic have been introduced alternatively to the IEEE floating-point formats, which are cost effective and/or more accurate. However, the hardware design, verification and assessment are more complex and expensive processes. Hence, these arithmetic systems should be tested in simulation environments for the target applications, before moving forward to system design. Since most deeplearning frameworks and libraries target AI production, they only support the IEEE formats. This paper presents NumNN.jl, a tool for supporting and facilitating the design and prototyping of deeplearning systems based on different number representations. It provides an agile way of designing, training and evaluating any type of deeplearning (neural network) model with any number and arithmetic system(s).
 	\end{abstract}
 
 	\input{introduction}
