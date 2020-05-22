@@ -25,7 +25,7 @@ Defining layers sequence can be easily done either like this:
 \end{listing}
 
 
-where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. In the case there are some side branches, it can be easily performed as in the example of Inception Net \cite{Szegedy2016} (Listing~\ref{chain} as Figure~\ref{fig:inc} shows what happens in the first 3 lines of Listing~\ref{chain} \mintinline{julia}{X_Input} is being fed into 5 different layers at the same time and the output of these layers are concatenated using \mintinline{julia}{ConcatLayer} to be fed into the next layer). 
+where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. In the case there are some side branches, it can be easily performed as in the example of Inception Net \cite{Szegedy2016} (Listing~\ref{chain} as Figure~\ref{fig:inc} shows what happens in the first 3 lines of Listing~\ref{chain}. \mintinline{julia}{X_Input} is being fed into 5 different layers at the same time and the output of these layers are concatenated using \mintinline{julia}{ConcatLayer} to be fed into the next layer). 
 
 %A group of examples can be found in Appendices.
 
@@ -86,7 +86,7 @@ An essential data type (\mintinline[fontsize=\footnotesize]{julia}{Model}) holds
 \begin{figure}[!h]
 	\centering
 	\input{incep}
-	\caption{Listing~\ref{chain} Layers' representation at the first 3 lines}\label{fig:inc}
+	\caption{Listing~\ref{chain} Layers' representation for the first 3 lines}\label{fig:inc}
 \end{figure}
 
 Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl provides a set of activation functions (sigmoid ($\sigma$), \mintinline{julia}{tanh}, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). Any other activation function can be defined as a subtype of \mintinline[fontsize=\footnotesize]{julia}{actFun}, and then as a normal function with another function for its derivative. For instance, $\sin$ has to be added as an activation function, all what is needed is expressed in Listing~\ref{newact}.
