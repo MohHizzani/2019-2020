@@ -1,6 +1,6 @@
 \section{Structure and Organization}
 
-The NumNN.jl  package\footnote{The Software Toolkit presented in this paper will be made available when paper is accepted}% \url{https://github.com/MohHizzani/NumNN.jl}} 
+The NumNN.jl  package%\footnote{The Software Toolkit presented in this paper will be made available when paper is accepted}% \url{https://github.com/MohHizzani/NumNN.jl}} 
  (library) was built on the concept of Rapid Prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research} \cite{Keras}. There are many deeplearning frameworks \cite{Abadi2016,Collet2015,Jia2014,Paszke2017,PyTorch2019}, some widely spread and efficient in production and research as long as IEEE-754 representation in adopted. However, most of these libraries run on Python with no native support for newly added primitive types nor the efficiency of Julia in multiple dispatch (i.e. any number system needs an internal modification to the library itself to be capable of handling it). Even packages of Julia like Flux.jl \cite{Flux.jl-2018,Innes2018} or Knet \cite{Yuret2016k} neither of them fully support newly added types, and do not provide the flexibility of different types for different parameters or to deliver output with certain desired data types. While NumNN.jl provides a fully support for a total in one type computation, and the ability to choose the type of each group of parameters and the capabilities of delivering output at any chosen type.
 
 \subsection{Fast Implementation and Deployment}
@@ -109,14 +109,15 @@ NumNN.jl has loss functions under the \mintinline{julia}{abstract type lossFun}.
 \subsection{Training, Testing and Evaluating}
 To show the effectiveness of NumNN.jl some examples with benchmarks are applied, and accompanied with comparison with another library is presented. Keras on the top of TensorFlow was one of the main influencers upon the syntax of NumNN.jl. Thus, some benchmarks were run on both NumNN and TensorFlow. Nonetheless, some of the benchmarks could not be run on TensorFlow due to lack support for new data types, therefore, they were run only on NumNN.jl.
 
-The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz was used for all tests, and no GPU were used (NumNN does not support GPU and other back-end so far). Table~\ref{tab:bench} shows the results of all test\footnote{%All benchmarks are available at \url{https://github.com/MohHizzani/NumNN.jl/tree/master/examples}
-All codes where provided with the paper submit and after acceptance they will be available online}, and where blank is present that means test was not perform under this framework because the data type is not supported\footnote{\label{batchnorm}Benchmark 2 \& 3 has Batch Normalization layer where Float64 is not supported for this layer in TensorFlow}. All benchmarks perform the classification for the Fashion MNIST data using \mintinline{julia}{softmax} as an output layer and \mintinline{julia}{categoricalCrossentropy} as a loss function. Hence, cost is an average of the loss function over all the predicted data, and accuracy was computed as:
+The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz was used for all tests, and no GPU were used (NumNN does not support GPU and other back-end so far). Table~\ref{tab:bench} shows the results of all test%\footnote{%All benchmarks are available at \url{https://github.com/MohHizzani/NumNN.jl/tree/master/examples}
+%All codes where provided with the paper submit and after acceptance they will be available online}
+, and where blank is present that means test was not perform under this framework because the data type is not supported\footnote{\label{batchnorm}Benchmark 2 \& 3 has Batch Normalization layer where Float64 is not supported for this layer in TensorFlow}. All benchmarks perform the classification for the Fashion MNIST data using \mintinline{julia}{softmax} as an output layer and \mintinline{julia}{categoricalCrossentropy} as a loss function. Hence, cost is an average of the loss function over all the predicted data, and accuracy was computed as:
 
 \begin{equation}
 \textrm{accuracy} = \frac{\textrm{number of correct predictions}}{\textrm{total number of testing labels}}
 \end{equation}
 
-\begin{table}[!ht]
+\begin{table}[!htbp]
 	\centering
 	\renewcommand{\arraystretch}{1.1}
 	\caption{Various benchmarks for NumNN.jl and TensorFlow}\label{tab:bench}
