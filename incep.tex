@@ -1,0 +1,19 @@
+\begin{tikzpicture}[node distance=2cm,scale=0.6, every node/.style={scale=0.6}]
+\node (in1) [layer] {X\_Input};
+\node (conv1) [layer, above of=in1, xshift=-7cm] {Conv2D $(3\times3)$};
+\node (conv2) [layer, right of=conv1, xshift=1.5cm] {Conv2D $(5\times5)$};
+\node (conv3) [layer, right of=conv2, xshift=1.5cm] {Conv2D $(1\times1)$};
+\node (max1) [layer, right of=conv3, xshift=1.5cm] {MaxPool2D $(2\times2)$};
+\node (avg1) [layer, right of=max1, xshift=2cm] {AveragePool2D $(3\times3)$};
+\node (concat) [layer, above of=conv3] {ConcatLayer};
+\draw [arrow] (in1.north) -- (conv1.south);
+\draw [arrow] (in1.north) -- (conv2.south);
+\draw [arrow] (in1.north) -- (conv3.south);
+\draw [arrow] (in1.north) -- (max1.south);
+\draw [arrow] (in1.north) -- (avg1.south);
+\draw [arrow] (conv1.north) -- (concat.south);
+\draw [arrow] (conv2.north) -- (concat.south);
+\draw [arrow] (conv3.north) -- (concat.south);
+\draw [arrow] (max1.north) -- (concat.south);
+\draw [arrow] (avg1.north) -- (concat.south);
+\end{tikzpicture}

@@ -1,6 +1,7 @@
 \section{Structure and Organization}
 
-The NumNN.jl  package\footnote{\url{https://github.com/MohHizzani/NumNN.jl}} (library) was built on the concept of Rapid Prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research} \cite{Keras}. There are so many deeplearning frameworks out on the internet \cite{Abadi2016,Collet2015,Jia2014,Paszke2017,PyTorch2019}, some are widely spread and efficient in production and research as long as you are using the IEEE-754 standards. However, most of these libraries run on Python which has not the native support of newly added primitive types nor the efficiency of Julia in multiple dispatch (i.e. any new defined number systems needs an internal modification to the library itself to be capable of handling it). Even packages of Julia like Flux.jl \cite{Flux.jl-2018,Innes2018} or Knet \cite{Yuret2016k} neither of them fully support newly added types, and do not provide the flexibility of different types for different parameters or to deliver output with certain desired data types. Thus, NumNN.jl provides a fully support for a total in one type computation, the ability to choose the type of each group of parameters and the capabilities of delivering output of a chosen type.
+The NumNN.jl  package\footnote{The Software Toolkit presented in this paper will be made available when paper is accepted}% \url{https://github.com/MohHizzani/NumNN.jl}} 
+ (library) was built on the concept of Rapid Prototyping to enable fast experimentation. \emph{Begin able to go from idea to result with the least possible delay is key to good research} \cite{Keras}. There are many deeplearning frameworks \cite{Abadi2016,Collet2015,Jia2014,Paszke2017,PyTorch2019}, some widely spread and efficient in production and research as long as IEEE-754 representation in adopted. However, most of these libraries run on Python with no native support for newly added primitive types nor the efficiency of Julia in multiple dispatch (i.e. any number system needs an internal modification to the library itself to be capable of handling it). Even packages of Julia like Flux.jl \cite{Flux.jl-2018,Innes2018} or Knet \cite{Yuret2016k} neither of them fully support newly added types, and do not provide the flexibility of different types for different parameters or to deliver output with certain desired data types. While NumNN.jl provides a fully support for a total in one type computation, and the ability to choose the type of each group of parameters and the capabilities of delivering output at any chosen type.
 
 \subsection{Fast Implementation and Deployment}
 
@@ -24,15 +25,15 @@ Defining layers sequence can be easily done either like this:
 \end{listing}
 
 
-where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. Or in case there are some side branches it can be easily done as the example of Inception Net \cite{Szegedy2016} (Listing~\ref{chain}). 
+where \mintinline[fontsize=\footnotesize]{julia}{X_train} is the train array or the size of train array. In the case there are some side branches, it can be easily performed as in the example of Inception Net \cite{Szegedy2016} (Listing~\ref{chain} as Figure~\ref{fig:inc} shows what happens in the first 3 lines of Listing~\ref{chain} \mintinline{julia}{X_Input} is being fed into 5 different layers at the same time and the output of these layers are concatenated using \mintinline{julia}{ConcatLayer} to be fed into the next layer). 
 
 %A group of examples can be found in Appendices.
 
 \subsection{Structure and Architecture}\label{subsec:saa}
 
-The structure of NumNN.jl is simple enough to comprehend in few minutes and to start to amend in case any new element is needed to be added. \figurename~\ref{fig:layerstruct} shows the Layers hierarchy in NumNN.jl, this structure was built to facilitate the use and the future development of NumNN.jl.
+The structure of NumNN.jl is simple enough to comprehend and start to amending new elements when require. \figurename~\ref{fig:layerstruct} shows the Layers hierarchy in NumNN.jl, this structure was built to facilitate the use and the future development of NumNN.jl.
 
-The convention of data shape to be used is (data dimension(s), channels, batch size). For instance, when using MNIST \cite{LeCun1998,LeCun1998a} data set the shape of training data will be (28,28,1,60000), where the first two dimensions are the images' dimensions the third one is number of channels and the last integer expresses the batch size.
+The convention of data shape to be used is (data dimension(s), channels, batch size). For instance, when using MNIST \cite{LeCun1998,LeCun1998a} data set, the shape of training data will be (28,28,1,60000), where the first two dimensions are the images' dimensions while the third is the number of channels and the last integer expresses the batch size.
 
 \begin{figure}[!ht]
 	\centering
@@ -42,47 +43,53 @@ The convention of data shape to be used is (data dimension(s), channels, batch s
 	\caption{Layer Architecture in NumNN.jl, the useable layers are the leaves the other nodes are \mintinline[fontsize=\footnotesize]{julia}{abstract type}s.}\label{fig:layerstruct}
 \end{figure}
 
-An essential data type (\mintinline[fontsize=\footnotesize]{julia}{Model}) holds the main pointers to layers structure and parameters to use. Instantiating a (\mintinline[fontsize=\footnotesize]{julia}{Model}) will also invoke the initialization of the layers scaling and bias parameters and can be done as presented in Listing~\ref{modelinit}.
+An essential data type (\mintinline[fontsize=\footnotesize]{julia}{Model}) holds the main pointers to the layers, structure and parameters to use. Instantiating a (\mintinline[fontsize=\footnotesize]{julia}{Model}) will also invoke the initialization of the layers scaling and bias parameters, which can be done as presented in Listing~\ref{modelinit}.
 
 \begin{listing}[H]
 	\begin{minted}{julia}
 	model = Model(X_train, Y_train, X_Input, X_Output, 0.001; optimizer=:adam, loss=:categoricalCrossentropy)
 	\end{minted}
-	\caption{Model initialization, \mintinline{julia}{X_train, Y_train} are training data and labels, while \mintinline{Julia}{X_Input, X_Ouput} are the input and output layers. The value of \mintinline{julia}{0.001} represent the learning rate of this model, where the key-word \mintinline{julia}{optimizer} define the optimizer to use during training, and \mintinline{julia}{loss} defines the loss function.}\label{modelinit}
+	\caption{Model initialization, \mintinline{julia}{X_train, Y_train} are training data and labels, while \mintinline{Julia}{X_Input, X_Ouput} are the input and output layers. The value of \mintinline{julia}{0.001} represent the learning rate of this model, where the key-word \mintinline{julia}{optimizer} define the optimizer to be used during training, and \mintinline{julia}{loss} defines the loss function.}\label{modelinit}
 \end{listing}
 
 \begin{listing}[!h]
 	\begin{minted}{julia}
 	X_Input = Input(X_train)
-	Xc = [
+	Xc = [ # use X_Input as an input for these 5 different layers
 	Conv2D(3, (3,3), padding=:same)(X_Input),
 	Conv2D(4, (5,5), padding=:same)(X_Input),
 	Conv2D(10, (1,1), padding=:same)(X_Input),
 	MaxPool2D((2,2); padding=:same)(X_Input),
 	AveragePool2D((3,3); padding=:same)(X_Input),
 	]
-	X = ConcatLayer()(Xc)
+	X = ConcatLayer()(Xc) #concatnate the output of all layers in Xc array into one 4D Array
 	X = BatchNorm(dim=3)(X) #to normalize across the channels
 	X = Activation(:relu)(X)
 	X = MaxPool2D((2,2))(X);
-	Xc = [
+	Xc = [ # use X as an input for these 5 different layers
 	Conv2D(6, (3,3), padding=:same)(X),
 	Conv2D(8, (5,5), padding=:same)(X),
 	Conv2D(10, (1,1), padding=:same)(X),
 	MaxPool2D((2,2); padding=:same)(X),
 	AveragePool2D((3,3); padding=:same)(X),
 	]
-	X = ConcatLayer()(Xc)
+	X = ConcatLayer()(Xc) #concatnate the output of all layers in Xc array into one 4D Array
 	X = BatchNorm(dim=3)(X) #to normalize across the channels
 	X = Activation(:relu)(X)
 	X = AveragePool2D((3,3))(X);
 	X = Flatten()(X)
 	X_Output = FCLayer(10, :softmax)(X);
 	\end{minted}
-	\caption{InceptionNet Example where this layer architecture has many side branches.}\label{chain}
+	\caption{InceptionNet Example, this layer architecture has many side branches.}\label{chain}
 \end{listing}
 
-Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl only provided few activation functions (sigmoid ($\sigma$), \mintinline{julia}{tanh}, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). Using any other activation function can be defined as a subtype of \mintinline[fontsize=\footnotesize]{julia}{actFun} and then as a normal function with another function for its derivative. For instance, if you want to add $\sin$ as an activation function all what you need is expressed in Listing~\ref{newact}.
+\begin{figure}[!h]
+	\centering
+	\input{incep}
+	\caption{Listing~\ref{chain} Layers' representation at the first 3 lines}\label{fig:inc}
+\end{figure}
+
+Activation functions are defined under the \mintinline[fontsize=\footnotesize]{julia}{abstract type actFun}. NumNN.jl provides a set of activation functions (sigmoid ($\sigma$), \mintinline{julia}{tanh}, \mintinline[fontsize=\footnotesize]{julia}{softmax} and \mintinline[fontsize=\footnotesize]{julia}{noAct}). Any other activation function can be defined as a subtype of \mintinline[fontsize=\footnotesize]{julia}{actFun}, and then as a normal function with another function for its derivative. For instance, $\sin$ has to be added as an activation function, all what is needed is expressed in Listing~\ref{newact}.
 
 \begin{listing}[!ht]
 	\begin{minted}{julia}
@@ -99,10 +106,15 @@ NumNN.jl has loss functions under the \mintinline{julia}{abstract type lossFun}.
 %\subsection{Sequence of Processes}
 %The easiest way of explaining NumNN.jl is by showing a complete example. 
 
-\subsection{Some Benchmarks and Testing}
-The most convenient way to demonstrate the effectiveness of NumNN.jl is by getting hands dirty and showing some examples accompanied with comparison beside another library. Keras on the top of TensorFlow was one of the main influencers upon the syntax of NumNN.jl. Thus, some benchmarks were run on both NumNN and TensorFlow. Nonetheless, other benchmarks could not be run on TensorFlow due to lack support for new data types, therefore, they were run only on NumNN.jl.
+\subsection{Training, Testing and Evaluating}
+To show the effectiveness of NumNN.jl some examples with benchmarks are applied, and accompanied with comparison with another library is presented. Keras on the top of TensorFlow was one of the main influencers upon the syntax of NumNN.jl. Thus, some benchmarks were run on both NumNN and TensorFlow. Nonetheless, some of the benchmarks could not be run on TensorFlow due to lack support for new data types, therefore, they were run only on NumNN.jl.
 
-The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz was used for all tests, and no GPU were used (NumNN does not support GPU and other back-end so far). Table~\ref{tab:bench} shows the results of all test\footnote{All benchmarks are available at \url{https://github.com/MohHizzani/NumNN.jl/tree/master/examples}}, and where bank is present that means test was not perform under this framework because the data type is not supported\footnote{\label{batchnorm}Benchmark 2 \& 3 has Batch Normalization layer where Float64 is not supported for this layer in TensorFlow}.
+The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz was used for all tests, and no GPU were used (NumNN does not support GPU and other back-end so far). Table~\ref{tab:bench} shows the results of all test\footnote{%All benchmarks are available at \url{https://github.com/MohHizzani/NumNN.jl/tree/master/examples}
+All codes where provided with the paper submit and after acceptance they will be available online}, and where blank is present that means test was not perform under this framework because the data type is not supported\footnote{\label{batchnorm}Benchmark 2 \& 3 has Batch Normalization layer where Float64 is not supported for this layer in TensorFlow}. All benchmarks perform the classification for the Fashion MNIST data using \mintinline{julia}{softmax} as an output layer and \mintinline{julia}{categoricalCrossentropy} as a loss function. Hence, cost is an average of the loss function over all the predicted data, and accuracy was computed as:
+
+\begin{equation}
+\textrm{accuracy} = \frac{\textrm{number of correct predictions}}{\textrm{total number of testing labels}}
+\end{equation}
 
 \begin{table}[!ht]
 	\centering
@@ -129,7 +141,7 @@ The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R)
 		%%%%%%%%%% Benchmark 2
 		\multirow{14}{*}{Benchmark 2\footref{batchnorm}} & \multirow{5}{*}{Float32} & Train Accuracy & 0.8980 & 0.9160\\
 		& & Test Accuracy & 0.8786 & 0.8929\\
-		& & Train Cost & 0.2760 & 0.0.2346\\
+		& & Train Cost & 0.2760 & 0.2346\\
 		& & Test Cost & 0.3386 & 0.2955\\
 		& & Training Time / Sample & $1.31m$s & $8m$s \\\cline{2-5}
 		& \multirow{5}{*}{Float64} & Train Accuracy & 0.9020 & \rule{5em}{1pt} \\
@@ -159,4 +171,4 @@ The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R)
 	\end{tabular}
 \end{table}
 
-
+As presented in Table~\ref{tab:bench}, NumNN was faster in training than TensorFlow under the same layers' architecture, using the same data set, and running on the same hardware. Accuracy were very close in all benchmarks with few difference margin which is a result of the randomness of shuffling the training data each time, and initializing the trainable parameters of each layers.
