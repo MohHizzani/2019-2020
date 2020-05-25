@@ -111,7 +111,7 @@ To show the effectiveness of NumNN.jl some examples with benchmarks are applied,
 
 The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz was used for all tests, and no GPU were used (NumNN does not support GPU and other back-end so far). Table~\ref{tab:bench} shows the results of all test%\footnote{%All benchmarks are available at \url{https://github.com/MohHizzani/NumNN.jl/tree/master/examples}
 %All codes where provided with the paper submit and after acceptance they will be available online}
-, and where blank is present that means test was not perform under this framework because the data type is not supported\footnote{\label{batchnorm}Benchmark 2 \& 3 has Batch Normalization layer where Float64 is not supported for this layer in TensorFlow}. All benchmarks perform the classification for the Fashion MNIST data using \mintinline{julia}{softmax} as an output layer and \mintinline{julia}{categoricalCrossentropy} as a loss function. Hence, cost is an average of the loss function over all the predicted data, and accuracy was computed as:
+, and where blank is present that means test was not perform under this framework because the data type is not supported\footnote{\label{batchnorm}Benchmark 2 \& 3 has Batch Normalization layer where Float64 is not supported for this layer in TensorFlow}. All benchmarks perform the classification for the Fashion MNIST data using \mintinline{julia}{softmax} as an output layer and \mintinline{julia}{categoricalCrossentropy} as a loss function. Hence, cost is an average of the loss function over all the predicted data. Accuracy was computed as:
 
 \begin{equation}
 \textrm{accuracy} = \frac{\textrm{number of correct predictions}}{\textrm{total number of testing labels}}
@@ -172,4 +172,4 @@ The data used for train/test was Fashion MNIST \cite{Xiao2017}. Intel(R) Xeon(R)
 	\end{tabular}
 \end{table}
 
-As presented in Table~\ref{tab:bench}, NumNN was faster in training than TensorFlow under the same layers' architecture, using the same data set, and running on the same hardware. Accuracy were very close in all benchmarks with few difference margin which is a result of the randomness of shuffling the training data each time, and initializing the trainable parameters of each layers.
+As presented in Table~\ref{tab:bench}, NumNN was faster in training than TensorFlow under the same layers' architecture, using the same data set, and running on the same hardware. Accuracies of benchmarks were very close with few difference margin which is a result of the randomness of shuffling the training data each time, and initializing the trainable parameters of each layers.
