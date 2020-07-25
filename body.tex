@@ -19,7 +19,7 @@ Defining layers sequence can be easily done like in Listing~\ref{chain},
 
 \begin{listing}[H]
 	\begin{minted}{julia}
-	X_Input, X_Ouput = chain(X_train,[Flatten(),FCLayer(120,:relu),FCLayer(10,:softmax)])
+	X_Input, X_Ouput = chain(X_train, [Flatten(), FCLayer(120, :relu), FCLayer(10, :softmax)])
 	\end{minted}
 	\caption{Chained Layers with no side branch(es)}\label{chain}
 \end{listing}
@@ -37,7 +37,7 @@ Layers of red color (MILayer) are multi-input layers (i.e. it input is an array 
 
 The convention to be for data shape used is (data dimension(s), channels, batch size). For instance, when using the MNIST \cite{LeCun1998,LeCun1998a} data set, the shape of training data will be (28,28,1,60000), where the first two dimensions are the images' dimensions, the third one is the number of channels, and the last integer expresses the batch size.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 	\centering
 	%\begin{subfigure}{0.95\textwidth}
 		\input{typetree}
@@ -123,7 +123,7 @@ The data used for training/testing was Fashion MNIST \cite{Xiao2017}, and Intel(
 The higher the value of accuracy is (the closer to one) the better the performance.
 
 
-\begin{table}[!htb]
+\begin{table}[!htbp]
 	\centering
 	\renewcommand{\arraystretch}{1.1}
 	\caption{Various benchmarks for NumNN.jl and TensorFlow, best results across each row were highlighted.}\label{tab:bench}

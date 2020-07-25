@@ -1,6 +1,6 @@
 %\documentclass[onecolumn]{IEEEtran}
-\documentclass{article}
-\usepackage[nonatbib,preprint]{neurips_2020}
+\documentclass[runningheads]{llncs}
+%\usepackage[nonatbib,preprint]{neurips_2020}
 %\usepackage{natbib}
 \usepackage[utf8]{inputenc}
 
@@ -25,13 +25,15 @@
 \definecolor{dgray}{gray}{0.3}
 \usepackage{scrextend}
 \usepackage{hyperref}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
 \hypersetup{
 	colorlinks=true,
-	linkcolor=blue,
+	linkcolor=dgray,
 	filecolor=magenta,      
-	urlcolor=cyan,
+	urlcolor=blue,
 	citecolor=dgray,
 }
+
 
 
 
@@ -58,24 +60,33 @@
 \title{NumNN.jl: Conventional Neural Networks on Non-Conventional Arithmetic}
 
 \author{%\IEEEauthorblockN
-	{Mohammad~Hizzani}\\
+	Mohammad~Hizzani%\\
+	\inst{1}%\orcidID{0000-0002-7734-8473}
 	%\IEEEauthorblockA
 	%{
-	INESC-ID\\ 
-	Instituto Superior Técnico\\ 
-		Universidade de Lisboa\\
-		Email: \href{mailto:moh.hizzani@gmail.com}{\tt moh.hizzani@gmail.com}%}
-	\And
+	%INESC-ID\\ 
+	%Instituto Superior Técnico\\ 
+	%	Universidade de Lisboa\\
+	%	Email: \href{mailto:moh.hizzani@gmail.com}{\tt moh.hizzani@gmail.com}%}
+	\and
 	%\IEEEauthorblockN
-	{Leonel Sousa}\\
+	Leonel Sousa%\\
+	\inst{1}%\orcidID{0000-0002-8066-221X}
 	%\IEEEauthorblockA
 	%{
-	INESC-ID\\ 
-		Instituto Superior Técnico\\ 
-		Universidade de Lisboa\\
-		Email: \href{mailto:las@inesc-id.pt}{\tt las@inesc-id.pt}%}
+	%INESC-ID\\ 
+	%	Instituto Superior Técnico\\ 
+	%	Universidade de Lisboa\\
+	%	Email: \href{mailto:las@inesc-id.pt}{\tt las@inesc-id.pt}%}
 	%Email: some@sdf.com}
 }
+%
+\authorrunning{M. Hizzani and L. Sousa}
+%
+\institute{Universidade de Lisboa Instituto Superior Técnico, Lisboa, Lisboa, PT
+\email{moh.hizzani@gmail.com}%
+\\
+\email{las@inesc-id.pt}}
 
 
 \begin{document}
@@ -93,7 +104,7 @@
 %	\includestandalone[subpreambles=true]{00-FCLayer-FashionMNIST/00-FCLayer-FashionMNIST}
 	%\input{appendices}
 	
-	\bibliographystyle{IEEEtran}
+	\bibliographystyle{splncs04}
 	%\bibliographystyle{plain}
 	\bibliography{main}
 	%\printbibliography
