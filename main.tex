@@ -1,7 +1,11 @@
 %\documentclass[onecolumn]{IEEEtran}
-\documentclass[runningheads]{llncs}
+%anonymous,review,
+\documentclass[anonymous,review,acmsmall,10pt]{acmart}
 %\usepackage[nonatbib,preprint]{neurips_2020}
-%\usepackage{natbib}
+%\usepackage{natbib} 
+%\usepackage[dvipsnames]{xcolor}
+\definecolor{LGray}{gray}{0.98}
+\definecolor{dgray}{gray}{0.3}
 \usepackage[utf8]{inputenc}
 
 \usepackage{IEEEtrantools}
@@ -20,10 +24,8 @@
 %\usepackage{graphicx}
 %\usepackage{float}
 %\usepackage{listing}
-\usepackage[dvipsnames]{xcolor}
-\definecolor{LGray}{gray}{0.98}
-\definecolor{dgray}{gray}{0.3}
-\usepackage{scrextend}
+
+%\usepackage{scrextend}
 \usepackage{hyperref}
 \renewcommand\UrlFont{\color{blue}\rmfamily}
 \hypersetup{
@@ -40,7 +42,7 @@
 %%% for code wraping
 \usepackage{minted}
 \usemintedstyle{colorful}
-\setminted[julia]{frame=lines,rulecolor=MidnightBlue,bgcolor=LGray,fontsize=\footnotesize ,breaklines}
+\setminted[julia]{frame=lines,rulecolor=dgray,bgcolor=LGray,fontsize=\footnotesize ,breaklines}
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows}
 \usetikzlibrary{mindmap}
@@ -57,21 +59,46 @@
 \usepackage{array}
 \usepackage{multirow}
 
-\title{NumNN.jl: Conventional Neural Networks on Non-Conventional Arithmetic}
+\title{NumNN: Conventional Neural Networks on Non-Conventional Arithmetic}
 
-\author{%\IEEEauthorblockN
-	Mohammad~Hizzani%\\
-	\inst{1}%\orcidID{0000-0002-7734-8473}
+\author{Mohammad Hizzani}
+\orcid{0000-0002-7734-8473}
+\affiliation{%
+	\department{INESC-ID}
+	\department{Instituto Superior Técnico}
+	\institution{University of Lisbon}
+	%\streetaddress{Rua Alves Redol 9}
+	%\postcode{1000-029}
+	\city{Lisbon}
+	\country{Portugal}
+}
+\email{moh.hizzani@gmail.com}
+
+
+\author{Leonel Sousa}
+\affiliation{%
+	\department{INESC-ID}
+	\department{Instituto Superior Técnico}
+	\institution{University of Lisbon}
+	\streetaddress{Rua Alves Redol 9}
+	\postcode{1000-029}
+	\city{Lisbon}
+	\country{Portugal}
+}
+\orcid{0000-0002-8066-221X}
+	%\IEEEauthorblockN
+	%Mohammad~Hizzani,%\\
+	%\inst{1}%\orcidID{0000-0002-7734-8473}
 	%\IEEEauthorblockA
 	%{
 	%INESC-ID\\ 
 	%Instituto Superior Técnico\\ 
 	%	Universidade de Lisboa\\
 	%	Email: \href{mailto:moh.hizzani@gmail.com}{\tt moh.hizzani@gmail.com}%}
-	\and
+	%\and
 	%\IEEEauthorblockN
-	Leonel Sousa%\\
-	\inst{1}%\orcidID{0000-0002-8066-221X}
+	%Leonel~Sousa%\\
+	%\inst{1}%\orcidID{0000-0002-8066-221X}
 	%\IEEEauthorblockA
 	%{
 	%INESC-ID\\ 
@@ -79,22 +106,47 @@
 	%	Universidade de Lisboa\\
 	%	Email: \href{mailto:las@inesc-id.pt}{\tt las@inesc-id.pt}%}
 	%Email: some@sdf.com}
-}
+%}
 %
-\authorrunning{M. Hizzani and L. Sousa}
+%\authorrunning{M. Hizzani and L. Sousa}
 %
-\institute{Universidade de Lisboa Instituto Superior Técnico, Lisboa, Lisboa, PT
-\email{moh.hizzani@gmail.com}%
-\\
-\email{las@inesc-id.pt}}
+%\institute{Universidade de Lisboa Instituto Superior Técnico, Lisboa, Lisboa, PT
+%\email{moh.hizzani@gmail.com}%
+%\\
+\email{las@inesc-id.pt}
 
 
 \begin{document}
-	\maketitle
 
 	\begin{abstract}
-		The development of Deeplearning models requires hardware support, with deep architectures organized around different number of layers, whether they are fully-connected networks or convolutional. Moreover, deeplearning models use big data for training, with the need for tuning the hyper parameters, requiring the repetition of the whole training process multiple times. Thus, hardware-friendly number systems and arithmetic have been introduced alternatively to the IEEE floating-point formats, which are cost effective and/or more accurate. However, the hardware design, verification and assessment are complex and expensive processes. Hence, these arithmetic systems should be tested in simulation environments for the target applications, before moving forward to system design. Most deeplearning frameworks and libraries target AI production, they are supporting the IEEE floating point formats. This paper presents NumNN.jl, a tool for facilitating the design and prototyping of deeplearning systems based on different number representations. It provides an agile way of designing, training and evaluating any type of deeplearning (neural network) model with any number system. NumNN.jl has been used to develop deeplearning networks supported not only on 32-bit and 64-bit IEEE floating point formats but also on the Posit number representation.  Results, obtained with NumNN.jl for benchmarks, are presented and compared with TensorFlow, showing the practical interest of the proposed software tool.
+		As the development of Deep Neural Networks models increases in terms of complexity and deep architectures organized around different number of layers, whether they are fully-connected networks or convolutional, a crucial need for hardware support boosts. In addition, deep learning models use big data for training, also, with the need for tuning the hyper parameters, which requires the repetition of the whole training process multiple times. Thus, hardware-friendly number systems and arithmetic operations have been introduced alternatively to the IEEE floating-point formats and conventional arithmetic, which are cost-effective and/or more accurate. However, the hardware design, verification and assessment are complex and expensive processes. Hence, these arithmetic systems should be tested in simulation environments for the target applications, before moving forward to system design. Most deep learning frameworks and libraries target AI production, they are only supporting the IEEE floating point formats. This paper presents NumNN, a tool for facilitating the design and prototyping of deep learning systems based on different number representations, or the simulation of new hardware-oriented arithmetic operations. It provides an agile way of designing, training and evaluating any type of deep learning (neural network) model with any number system. NumNN has been used to develop deeplearning networks supported not only on 32-bit and 64-bit IEEE floating point formats but also on the Posit number representation.  Results, obtained with NumNN for benchmarks, are presented and compared with TensorFlow, showing the practical interest of the proposed software tool.
 	\end{abstract}
+
+\begin{CCSXML}
+	<ccs2012>
+	<concept>
+	<concept_id>10010583.10010717.10010721</concept_id>
+	<concept_desc>Hardware~Functional verification</concept_desc>
+	<concept_significance>500</concept_significance>
+	</concept>
+	<concept>
+	<concept_id>10010147.10010178</concept_id>
+	<concept_desc>Computing methodologies~Artificial intelligence</concept_desc>
+	<concept_significance>500</concept_significance>
+	</concept>
+	<concept>
+	<concept_id>10010147.10010341.10010366.10010367</concept_id>
+	<concept_desc>Computing methodologies~Simulation environments</concept_desc>
+	<concept_significance>500</concept_significance>
+	</concept>
+	</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Hardware~Functional verification}
+\ccsdesc[500]{Computing methodologies~Artificial intelligence}
+\ccsdesc[500]{Computing methodologies~Simulation environments}
+
+	\maketitle
 
 	\input{introduction}
 	
@@ -104,7 +156,7 @@
 %	\includestandalone[subpreambles=true]{00-FCLayer-FashionMNIST/00-FCLayer-FashionMNIST}
 	%\input{appendices}
 	
-	\bibliographystyle{splncs04}
+	\bibliographystyle{ACM-Reference-Format}
 	%\bibliographystyle{plain}
 	\bibliography{main}
 	%\printbibliography
